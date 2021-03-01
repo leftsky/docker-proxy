@@ -12,7 +12,8 @@ spawn certbot --server https://acme-v02.api.letsencrypt.org/directory -d "$domai
 expect "Enter email address" { send "$email\r"; exp_continue; } \
 "agree in order to register with the ACME server" { send "A\r"; exp_continue; } \
 "share your email" { send "N\r"; exp_continue; } \
-"Are you OK with your IP being logged" { send "Y\r"; }
+"Are you OK with your IP being logged" { send "Y\r"; } \
+"Renew & replace the cert" { send "2\r"; }
 # 获得验证文件内容
 expect -re "(\\S{70,90})"
 set file_content $expect_out(0,string)
@@ -25,7 +26,7 @@ set file_name $expect_out(1,string)
 send_user "\r\n校验文件内容：$file_content"
 # send_user "\r\n校验文件路径：$file_url"
 send_user "\r\n校验文件名：$file_name"
-exec echo "$file_content" > $file_name
+exec echo "$file_content" > /var/www/public/.well-known/acme-challenge/$file_name
 send "\r"
 interact
 
