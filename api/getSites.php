@@ -32,6 +32,8 @@ function put_proxy_file($site)
   if ($site['use_ssl']) {
     $vhost_config_content .= "listen 443 ssl;\r\n";
   }
+  // 允许最大大小50M
+  $vhost_config_content .= "client_max_body_size 50M;\r\n";
   // 绑定所有域名
   $vhost_config_content .= "server_name";
   foreach ($site['domains'] as $domain) {
@@ -49,6 +51,8 @@ ssl_session_cache shared:SSL:10m;
 ssl_session_timeout 10m;
 add_header Strict-Transport-Security \"max-age=31536000\";\r\n";
   }
+  // 配置不转发.wellknow文件夹
+  $vhost_config_content .= "location ~ /\.wellknow { allow all; }\r\n";
   // 配置转发ip
   $vhost_config_content .= "location / {
   proxy_pass http://{$site['vhost_dest_ip']};
