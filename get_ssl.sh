@@ -7,7 +7,11 @@ set email [lindex $argv 1]
 # 设置超时
 set timeout 30
 # 开始申请证书
-spawn certbot --server https://acme-v02.api.letsencrypt.org/directory -d "$domains" --manual --preferred-challenges http-01 certonly
+spawn certbot --server https://acme-v02.api.letsencrypt.org/directory \
+--logs-dir=/var/www/certbot/logs \
+--config-dir=/var/www/certbot/config \
+--work-dir=/var/www/certbot/work \
+-d "$domains" --manual --preferred-challenges http-01 certonly
 # 输入邮箱，同意获得IP
 expect "Enter email address" { send "$email\r"; exp_continue; } \
 "agree in order to register with the ACME server" { send "A\r"; exp_continue; } \
