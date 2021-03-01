@@ -27,10 +27,11 @@ expect -re "http\\S+/(\\S{10,90})"
 # send_user $expect_out(0,string)
 # send_user $expect_out(1,string)
 set file_name $expect_out(1,string)
-send_user "\r\n校验文件内容：$file_content"
+# send_user "\r\n校验文件内容：$file_content"
 # send_user "\r\n校验文件路径：$file_url"
-send_user "\r\n校验文件名：$file_name"
+# send_user "\r\n校验文件名：$file_name"
 exec echo "$file_content" > /var/www/public/.well-known/acme-challenge/$file_name
 send "\r"
+expect "has been saved"
 interact
 
