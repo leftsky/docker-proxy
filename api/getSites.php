@@ -3,7 +3,7 @@
 // nginx虚拟主机配置文件目录位置
 $sites_config_dir = __DIR__ . "/vhosts/";
 // 配置文件名
-$file_name = "nginx_proxy_config";
+$file_name = __DIR__ . "/../nginx_proxy_config";
 // 最初的配置信息
 $config = [];
 // 检查nginx虚拟主机配置目录是否存在，如果不存在则退出
