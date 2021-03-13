@@ -1,0 +1,13 @@
+2021-03-13 07:18:23 pid:1 Exception: You can't send(array) to client, you need to convert it to a string.  in C:\Users\lefts\Documents\docker-proxy\api\vendor\workerman\workerman\Protocols\Websocket.php:236
+Stack trace:
+#0 C:\Users\lefts\Documents\docker-proxy\api\vendor\workerman\workerman\Connection\TcpConnection.php(321): Workerman\Protocols\Websocket::encode()
+#1 C:\Users\lefts\Documents\docker-proxy\api\public\api.php(17): Workerman\Connection\TcpConnection->send()
+#2 C:\Users\lefts\Documents\docker-proxy\api\vendor\workerman\workerman\Connection\TcpConnection.php(637): {closure}()
+#3 C:\Users\lefts\Documents\docker-proxy\api\vendor\workerman\workerman\Events\Select.php(293): Workerman\Connection\TcpConnection->baseRead()
+#4 C:\Users\lefts\Documents\docker-proxy\api\vendor\workerman\workerman\Worker.php(2430): Workerman\Events\Select->loop()
+#5 C:\Users\lefts\Documents\docker-proxy\api\vendor\workerman\workerman\Worker.php(1417): Workerman\Worker->run()
+#6 C:\Users\lefts\Documents\docker-proxy\api\vendor\workerman\workerman\Worker.php(1360): Workerman\Worker::forkWorkersForWindows()
+#7 C:\Users\lefts\Documents\docker-proxy\api\vendor\workerman\workerman\Worker.php(542): Workerman\Worker::forkWorkers()
+#8 C:\Users\lefts\Documents\docker-proxy\api\public\api.php(36): Workerman\Worker::runAll()
+#9 {main}
+2021-03-13 07:18:23 pid:1 Worker process terminated

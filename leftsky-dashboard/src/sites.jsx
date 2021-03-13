@@ -1,18 +1,30 @@
 import React, { PureComponent } from 'react'
 import _ from "loadsh";
 import styles from './sites.module.scss'
+import wsapi from './websocket-api'
 
 export default class sites extends PureComponent {
   state = {
-    sites: [{
-      name: "个人博客",
-      ip: "192.168.191.2",
-      ssl_status: "正常 2021-12-01 到期"
-    }]
+    sites: []
   }
 
   componentDidMount() {
-    console.log("Hello world")
+
+  }
+
+  componentWillUnmount() {
+    setTimeout(() => {
+      this.getBlogs();
+    }, 500);
+  }
+
+  getBlogs() {
+    wsapi.sendCmd("getBlogs", {}).then(res => {
+      console.log(res)
+      this.setState({
+        sites: res
+      })
+    })
   }
 
   render() {
