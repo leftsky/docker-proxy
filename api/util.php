@@ -7,17 +7,6 @@ if (!file_exists($sites_config_dir)) {
   exit("虚拟主机配置文件目录不存在");
 }
 
-// 最初的配置信息
-$config = [];
-// 配置文件名
-$file_name = __DIR__ . "/../nginx_proxy_config";
-// 检查配置文件是否存在，如果不存则则创建
-if (!file_exists($file_name)) {
-  file_put_contents($file_name, json_encode($config, JSON_UNESCAPED_UNICODE));
-}
-$config = file_get_contents($file_name);
-$config = json_decode($config, true);
-
 // 根据配置信息生成虚拟目录配置文件方法
 function put_proxy_file($site)
 {
@@ -67,3 +56,64 @@ location = /50x.html {
   file_put_contents($sites_config_dir . $site['domains'][0] . ".conf", $file_content);
   return $file_content;
 }
+
+class NginxConfigJson
+{
+  private $file_name = __DIR__ . "/nginx_proxy_config.json";
+  private $config = [];
+
+  function __construct()
+  {
+    if (!file_exists($this->file_name)) {
+      file_put_contents($this->file_name, json_encode([
+        'str' => 'nginx config',
+        'sites' => []
+      ], JSON_UNESCAPED_UNICODE));
+    }
+    $this->config = json_decode(file_get_contents($this->file_name), true);
+  }
+
+  function __destruct()
+  {
+    global $sites_config_dir;
+    $this->save();
+    array_map('unlink', glob($sites_config_dir . "/*.conf"));
+    system('nginx -s reload');
+    foreach ($this->config['sites'] as $site) {
+      put_proxy_file($site);
+    }
+  }
+
+  function save()
+  {
+    file_put_contents($this->file_name, json_encode($this->config, JSON_UNESCAPED_UNICODE));
+  }
+
+  function getSites()
+  {
+    return $this->config['sites'];
+  }
+
+  function addSite($site)
+  {
+    foreach ($this->config['sites'] as $s) {
+      if ($s['domains'] == $site['domains']) {
+        return false;
+      }
+    }
+    $this->config['sites'][] = $site;
+    return true;
+  }
+
+  function delSite($domain)
+  {
+    $arr = [];
+    foreach ($this->config['sites'] as $s) {
+      if ($s['domains'][0] != $domain) {
+        $arr[] = $s;
+      }
+    }
+    $this->config['sites'] = $arr;
+    return true;
+  }
+};
