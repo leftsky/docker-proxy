@@ -3,7 +3,7 @@ LABEL maintainer="leftsky <leftsky@vip.qq.com>"
 
 # 复制代码
 COPY api /var/api
-COPY leftsky-dashboard/build /var/www/public
+COPY leftsky-dashboard/build /usr/share/nginx/html
 # 复制申请SSL的shell文件
 COPY get_ssl.sh /home/
 RUN chmod a+x /home/get_ssl.sh
