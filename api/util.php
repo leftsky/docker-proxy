@@ -75,9 +75,8 @@ class NginxConfigJson
 
   function __destruct()
   {
-    global $sites_config_dir;
     $this->save();
-    array_map('unlink', glob($sites_config_dir . "/*.conf"));
+    // array_map('unlink', glob($sites_config_dir . "/*.conf"));
     system('nginx -s reload');
     foreach ($this->config['sites'] as $site) {
       put_proxy_file($site);
@@ -107,10 +106,13 @@ class NginxConfigJson
 
   function delSite($domain)
   {
+    global $sites_config_dir;
     $arr = [];
     foreach ($this->config['sites'] as $s) {
       if ($s['domains'][0] != $domain) {
         $arr[] = $s;
+      } else {
+        array_map('unlink', glob("$sites_config_dir/$domain.conf"));
       }
     }
     $this->config['sites'] = $arr;

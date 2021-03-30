@@ -11,7 +11,7 @@ RUN mkdir -p /var/www/certbot/logs
 RUN mkdir -p /var/www/certbot/config
 RUN mkdir -p /var/www/certbot/work
 RUN chown -R nginx:nginx /var/www/certbot
-# RUN echo 'php /var/www/public/api.php start -d' > /start.sh
+RUN sed -i '7i\php /var/api/public/api.php start -d' /start.sh
 
 EXPOSE 1300
 WORKDIR /var/www
