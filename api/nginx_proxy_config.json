@@ -1,1 +1,0 @@
-{"str":"nginx config","sites":[{"domains":["123"],"vhost_dest_ip":"123","name":"123","use_ssl":false,"ssl_publickey_file":"","ssl_privatekey_file":""},{"domains":["12"],"vhost_dest_ip":"12","name":"12","use_ssl":false,"ssl_publickey_file":"","ssl_privatekey_file":""}]}

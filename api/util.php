@@ -1,7 +1,7 @@
 <?php
 
 // nginx虚拟主机配置文件目录位置
-$sites_config_dir = "/etc/nginx/sites-available/";
+$sites_config_dir = "/etc/nginx/conf.d/";
 // 检查nginx虚拟主机配置目录是否存在，如果不存在则退出
 if (!file_exists($sites_config_dir)) {
   exit("虚拟主机配置文件目录不存在");

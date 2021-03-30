@@ -1,18 +1,30 @@
-FROM leftsky/php
+FROM nginx:alpine
 LABEL maintainer="leftsky <leftsky@vip.qq.com>" 
 
-COPY get_ssl.sh /home/
 COPY api /var/api
 COPY leftsky-dashboard/build /var/www/public
+# 复制申请SSL的shell文件
+COPY get_ssl.sh /home/
 RUN chmod a+x /home/get_ssl.sh
+# 复制启动文件
+COPY start.sh /start.sh
+RUN chmod 755 /start.sh
+# 更新软件包
+RUN echo "#aliyun" > /etc/apk/repositories
+RUN echo "https://mirrors.aliyun.com/alpine/v3.12/main/" >> /etc/apk/repositories
+RUN echo "https://mirrors.aliyun.com/alpine/v3.12/community/" >> /etc/apk/repositories
+RUN apk update
+RUN apk add php7 php7-posix php7-pcntl
+
 RUN apk add certbot tcl tk expect
 RUN mkdir -p /var/www/public/.well-known/acme-challenge/
 RUN mkdir -p /var/www/certbot/logs
 RUN mkdir -p /var/www/certbot/config
 RUN mkdir -p /var/www/certbot/work
 RUN chown -R nginx:nginx /var/www/certbot
-RUN sed -i '7i\php /var/api/public/api.php start -d' /start.sh
 
-EXPOSE 1300
+EXPOSE 1300 443
 WORKDIR /var/www
+
+# CMD ['/start.sh']
 
