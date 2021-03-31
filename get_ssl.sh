@@ -30,7 +30,7 @@ set file_name $expect_out(1,string)
 # send_user "\r\n校验文件内容：$file_content"
 # send_user "\r\n校验文件路径：$file_url"
 # send_user "\r\n校验文件名：$file_name"
-mkdir -p /usr/share/nginx/html/.well-known/acme-challenge/
+exec mkdir -p /usr/share/nginx/html/.well-known/acme-challenge/
 exec echo "$file_content" > /usr/share/nginx/html/.well-known/acme-challenge/$file_name
 send "\r"
 expect "has been saved"

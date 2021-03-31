@@ -23,9 +23,21 @@ $ws_worker->onMessage = function ($con, $data) {
       break;
     case "newSSL":
       // 申请SSL证书
+      $certPath = "/var/www/certbot/config/archive/";
       $domain = $data['domain'];
       $email = "admin@admin.com";
-      system("/home/get_ssl.sh $domain $email");
+      echo $certPath . $domain . "/fullchain1.pem";
+      if (!file_exists($certPath . $domain . "/fullchain1.pem")) {
+        // echo "文件不存在";
+        system("/home/get_ssl.sh $domain $email");
+      }
+      // 使之使用SSL
+      $site = $config->getSite($domain);
+      var_dump($site);
+      $site['use_ssl'] = true;
+      $site['ssl_publickey_file'] = $certPath . $domain . "/fullchain1.pem";
+      $site['ssl_privatekey_file'] = $certPath . $domain . "/privkey1.pem";
+      $config->changeSite($site);
       $rt = ['str' => '申请成功'];
       break;
     case "newSite":

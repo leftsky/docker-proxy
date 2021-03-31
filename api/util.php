@@ -93,6 +93,15 @@ class NginxConfigJson
     return $this->config['sites'];
   }
 
+  function getSite($domain)
+  {
+    foreach ($this->config['sites'] as $s) {
+      if ($s['domains'] == [$domain]) {
+        return $s;
+      }
+    }
+  }
+
   function addSite($site)
   {
     foreach ($this->config['sites'] as $s) {
@@ -101,6 +110,21 @@ class NginxConfigJson
       }
     }
     $this->config['sites'][] = $site;
+    return true;
+  }
+
+  function changeSite($site)
+  {
+    $arr = [];
+    foreach ($this->config['sites'] as $s) {
+      if ($s['domains'][0] == $site['domains'][0]) {
+        put_proxy_file($site);
+        $arr[] = $site;
+      } else {
+        $arr[] = $s;
+      }
+    }
+    $this->config['sites'] = $arr;
     return true;
   }
 
