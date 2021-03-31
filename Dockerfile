@@ -18,7 +18,7 @@ RUN echo "#aliyun" > /etc/apk/repositories
 RUN echo "https://mirrors.aliyun.com/alpine/v3.12/main/" >> /etc/apk/repositories
 RUN echo "https://mirrors.aliyun.com/alpine/v3.12/community/" >> /etc/apk/repositories
 RUN apk update
-RUN apk add php7 php7-posix php7-pcntl
+RUN apk add php7 php7-posix php7-pcntl php7-json
 # 安装更新软件
 RUN apk add --update bash supervisor
 
