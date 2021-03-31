@@ -10,6 +10,8 @@ RUN chmod a+x /home/get_ssl.sh
 # 复制启动文件
 COPY start.sh /start.sh
 RUN chmod 755 /start.sh
+# 复制nginx配置文件
+COPY default.conf /etc/nginx/conf.d/
 # 复制 supervisor 文件
 COPY supervisord.conf /etc/supervisord.conf
 
