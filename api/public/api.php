@@ -31,6 +31,10 @@ $ws_worker->onMessage = function ($con, $data) {
         // echo "文件不存在";
         system("/home/get_ssl.sh $domain $email");
       }
+      if (!file_exists($certPath . $domain . "/fullchain1.pem")) {
+        $rt = ['str' => '申请失败'];
+        break;
+      }
       // 使之使用SSL
       $site = $config->getSite($domain);
       var_dump($site);
